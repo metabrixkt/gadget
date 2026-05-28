@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
@@ -27,12 +27,14 @@ public class BasedSliderComponent extends SliderComponent {
     }
 
     @Override
-    public void renderWidget(GuiGraphics ctx, int mouseX, int mouseY, float delta) {
-        NinePatchTexture.draw(ButtonComponent.DISABLED_TEXTURE, (OwoUIGraphics) ctx, getX(), getY(), width, height);
+    public void extractWidgetRenderState(GuiGraphicsExtractor ctx, int mouseX, int mouseY, float delta) {
+        OwoUIGraphics owoCtx = OwoUIGraphics.of(ctx);
+
+        NinePatchTexture.draw(ButtonComponent.DISABLED_TEXTURE, owoCtx, getX(), getY(), width, height);
 
         NinePatchTexture.draw(
             (isHovered ? ButtonComponent.HOVERED_TEXTURE : ButtonComponent.ACTIVE_TEXTURE),
-            (OwoUIGraphics) ctx,
+            owoCtx,
             this.getX() + (int)(this.value * (double)(this.width - 8)),
             getY(),
             8,
@@ -41,8 +43,8 @@ public class BasedSliderComponent extends SliderComponent {
 
         int textColor = this.active ? 16777215 : 10526880;
         int marginX = 2;
-        this.renderScrollingStringOverContents(
-                ctx.textRendererForWidget(this, GuiGraphics.HoveredTextEffects.NONE),
+        this.extractScrollingStringOverContents(
+                ctx.textRendererForWidget(this, GuiGraphicsExtractor.HoveredTextEffects.NONE),
                 this.getMessage().copy().withColor(textColor),
                 marginX
         );

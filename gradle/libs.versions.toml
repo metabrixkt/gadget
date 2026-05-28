@@ -1,0 +1,43 @@
+[versions]
+minecraft = "26.1.2"
+fabric-loader = "0.19.2"
+fabric-loom = "1.16-SNAPSHOT"
+fabric-api = "0.149.1+26.1.2"
+owo = "0.13.0+26.1"
+modmenu = "18.0.0-beta.1"
+fabric-permissions-api = "0.7.0"
+mapping-io = "0.8.0"
+auoeke-result = "0.4.1"
+auoeke-unsafe = "1.7.3"
+auoeke-reflect = "6.3.0"
+quiltflower = "1.9.0"
+auth-me = "9.1.0+1.21.11"
+cloth-config = "26.1.154"
+patchouli = "1.19.2-76-FABRIC"
+trinkets = "3.4.0"
+rei = "9.1.530"
+architectury-fabric = "6.3.49"
+things = "0.2.20+1.19"
+
+[libraries]
+minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
+fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-loader" }
+fabric-api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric-api" }
+owo-lib = { module = "io.wispforest:owo-lib", version.ref = "owo" }
+fabric-permissions-api = { module = "me.lucko:fabric-permissions-api", version.ref = "fabric-permissions-api" }
+mapping-io = { module = "net.fabricmc:mapping-io", version.ref = "mapping-io" }
+auoeke-result = { module = "net.auoeke:result", version.ref = "auoeke-result" }
+auoeke-unsafe = { module = "net.auoeke:unsafe", version.ref = "auoeke-unsafe" }
+auoeke-reflect = { module = "net.auoeke:reflect", version.ref = "auoeke-reflect" }
+quiltflower = { module = "org.quiltmc:quiltflower", version.ref = "quiltflower" }
+modmenu = { module = "com.terraformersmc:modmenu", version.ref = "modmenu" }
+auth-me = { module = "maven.modrinth:auth-me", version.ref = "auth-me" }
+cloth-config = { module = "me.shedaniel.cloth:cloth-config-fabric", version.ref = "cloth-config" }
+patchouli = { module = "vazkii.patchouli:Patchouli", version.ref = "patchouli" }
+trinkets = { module = "dev.emi:trinkets", version.ref = "trinkets" }
+rei = { module = "me.shedaniel:RoughlyEnoughItems-fabric", version.ref = "rei" }
+architectury-fabric = { module = "dev.architectury:architectury-fabric", version.ref = "architectury-fabric" }
+things = { module = "com.glisco:things", version.ref = "things" }
+
+[plugins]
+fabric-loom = { id = "net.fabricmc.fabric-loom", version.ref = "fabric-loom" }

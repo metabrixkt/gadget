@@ -3,8 +3,10 @@ plugins {
     `maven-publish`
 }
 
-version = "${property("mod-version")}+${libs.versions.minecraft.get()}"
-group = property("group-id") as String
+version = providers.gradleProperty("mod-version")
+    .flatMap { modVersion -> libs.versions.minecraft.map { minecraftVersion -> "$modVersion+$minecraftVersion" } }
+    .get()
+group = providers.gradleProperty("group-id").get()
 
 repositories {
     // Add repositories to retrieve artifacts from in here.
@@ -33,11 +35,12 @@ repositories {
     }
 }
 
+private val testModSourceSetName = "testmod"
+
 sourceSets {
-    val main by getting
-    val testmod by creating {
-        runtimeClasspath += main.runtimeClasspath
-        compileClasspath += main.compileClasspath
+    create(testModSourceSetName) {
+        runtimeClasspath = files(runtimeClasspath, main.map { it.runtimeClasspath })
+        compileClasspath = files(compileClasspath, main.map { it.compileClasspath })
     }
 }
 
@@ -81,13 +84,13 @@ loom {
     runs {
         register("testmodClient") {
             client()
-            name = "Testmod Client"
-            source(sourceSets["testmod"])
+            displayName = "Testmod Client"
+            sourceSet = testModSourceSetName
         }
         register("testmodServer") {
             server()
-            name = "Testmod Server"
-            source(sourceSets["testmod"])
+            displayName = "Testmod Server"
+            sourceSet = testModSourceSetName
         }
     }
 
@@ -137,12 +140,11 @@ publishing {
     }
 
     repositories {
-        val env = System.getenv()
-        env["MAVEN_URL"]?.let { mavenUrl ->
+        providers.environmentVariable("MAVEN_URL").orNull?.let { mavenUrl ->
             maven(mavenUrl) {
                 credentials {
-                    username = env["MAVEN_USERNAME"]
-                    password = env["MAVEN_PASSWORD"]
+                    username = providers.environmentVariable("MAVEN_USERNAME").orNull
+                    password = providers.environmentVariable("MAVEN_PASSWORD").orNull
                 }
             }
         }

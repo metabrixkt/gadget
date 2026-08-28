@@ -37,7 +37,7 @@ public class REISupport {
 
             if (!(boolean) runtimeClass.getMethod("isOverlayVisible").invoke(runtime)) return;
             if (overlay.isEmpty()) return;
-            if (screen != Minecraft.getInstance().screen) return;
+            if (screen != Minecraft.getInstance().gui.screen()) return;
 
             Class<?> screenRegistryClass = Class.forName("me.shedaniel.rei.api.client.registry.screen.ScreenRegistry");
             Object screenRegistry = screenRegistryClass.getMethod("getInstance").invoke(null);

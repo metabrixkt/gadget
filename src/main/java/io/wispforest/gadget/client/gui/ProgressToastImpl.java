@@ -94,7 +94,7 @@ public class ProgressToastImpl implements Toast, ProgressToast {
     public void step(Component text) {
         Minecraft.getInstance().execute(() -> {
             if (!attached) {
-                Minecraft.getInstance().getToastManager().addToast(this);
+                Minecraft.getInstance().gui.toastManager().addToast(this);
                 attached = true;
             }
 
@@ -116,7 +116,7 @@ public class ProgressToastImpl implements Toast, ProgressToast {
     public void force() {
         Minecraft.getInstance().execute(() -> {
             if (!attached) {
-                Minecraft.getInstance().getToastManager().addToast(this);
+                Minecraft.getInstance().gui.toastManager().addToast(this);
                 attached = true;
             }
         });
@@ -133,8 +133,8 @@ public class ProgressToastImpl implements Toast, ProgressToast {
 
     public void oom(OutOfMemoryError oom) {
         adapter.rootComponent.clearChildren();
-        client.screen.removed();
-        client.screen = null;
+        client.gui.screen().removed();
+        client.gui.setScreen(null);
 
         following = null;
         adapter = null;
@@ -142,7 +142,7 @@ public class ProgressToastImpl implements Toast, ProgressToast {
         progressBox = null;
 
         client.execute(() -> {
-            client.getToastManager().clear();
+            client.gui.toastManager().clear();
 
             throw oom;
         });

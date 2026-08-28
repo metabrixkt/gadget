@@ -220,7 +220,7 @@ public class ViewResourcesScreen extends BaseOwoScreen<FlowLayout> {
 
     @Override
     public void onClose() {
-        minecraft.setScreen(parent);
+        minecraft.gui.setScreen(parent);
         if (prevTexture != null) {
             prevTexture.close();
         }

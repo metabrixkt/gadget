@@ -28,7 +28,6 @@ import io.wispforest.owo.ui.core.Sizing;
 import io.wispforest.owo.ui.layers.Layer;
 import io.wispforest.owo.ui.layers.Layers;
 import java.io.ByteArrayInputStream;
-import java.util.List;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -40,7 +39,6 @@ import net.fabricmc.loader.api.entrypoint.EntrypointContainer;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
@@ -166,12 +164,6 @@ public class GadgetClient implements ClientModInitializer {
             }
         });
 
-        List<String> alignToButtons = List.of(
-            "menu.multiplayer",
-            "menu.shareToLan",
-            "menu.playerReporting"
-        );
-
         Layers.add(UIContainers::verticalFlow, instance -> {
             if (!Gadget.CONFIG.menuButtonEnabled()) return;
 
@@ -184,11 +176,11 @@ public class GadgetClient implements ClientModInitializer {
                     instance.alignComponentToWidget(widget -> {
                         if (!(widget instanceof Button daButton)) return false;
                         return daButton.getMessage().getContents() instanceof TranslatableContents translatable
-                            && alignToButtons.contains(translatable.getKey());
+                            && translatable.getKey().equals("menu.multiplayer");
                     }, Layer.Instance.AnchorSide.RIGHT, 0, button);
                 })
             );
-        }, TitleScreen.class, PauseScreen.class);
+        }, TitleScreen.class);
 
         ScreenEvents.AFTER_INIT.register((client, screen, scaledWidth, scaledHeight) -> {
             if (screen instanceof AbstractContainerScreen<?> handled)

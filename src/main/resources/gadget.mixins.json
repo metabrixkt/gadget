@@ -35,6 +35,7 @@
         "client.MinecraftMixin",
         "client.NarratorMixin",
         "client.OnlineServerEntryMixin",
+        "client.PauseScreenMixin",
         "client.PoseStackMixin",
         "client.ServerSelectionListAccessor",
         "client.ServerStatusPingerMixin",

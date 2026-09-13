@@ -2,7 +2,6 @@ package io.wispforest.gadget.desc;
 
 import io.netty.buffer.ByteBuf;
 import io.wispforest.gadget.desc.edit.PrimitiveEditData;
-import io.wispforest.gadget.mappings.MappingsManager;
 import io.wispforest.gadget.network.FieldData;
 import io.wispforest.gadget.path.*;
 import io.wispforest.gadget.util.NetworkUtil;
@@ -140,7 +139,7 @@ public final class FieldObjects {
         if (o instanceof CompoundTag compound) {
             return new NbtCompoundFieldObject(compound);
         } else if (o instanceof byte[] bytes) {
-            return new BytesFieldObject(MappingsManager.unmapClass(o.getClass()), bytes);
+            return new BytesFieldObject(ReflectionUtil.prettyName(o.getClass()), bytes);
         } else if (o instanceof ByteBuffer byteBuffer) {
             int position = byteBuffer.position();
             int limit = byteBuffer.limit();
@@ -148,7 +147,7 @@ public final class FieldObjects {
             try {
                 byte[] bytes = new byte[byteBuffer.remaining()];
                 byteBuffer.get(bytes);
-                return new BytesFieldObject(MappingsManager.unmapClass(o.getClass()), bytes);
+                return new BytesFieldObject(ReflectionUtil.prettyName(o.getClass()), bytes);
             } finally {
                 byteBuffer.position(position);
                 byteBuffer.limit(limit);
@@ -157,7 +156,7 @@ public final class FieldObjects {
             try (var ignored = NetworkUtil.resetIndexes(buf)) {
                 byte[] bytes = new byte[buf.readableBytes()];
                 buf.readBytes(bytes);
-                return new BytesFieldObject(MappingsManager.unmapClass(o.getClass()), bytes);
+                return new BytesFieldObject(ReflectionUtil.prettyName(o.getClass()), bytes);
             }
         }
 
@@ -177,7 +176,7 @@ public final class FieldObjects {
         }
 
         return new ComplexFieldObject(
-            MappingsManager.unmapClass(o.getClass()),
+            ReflectionUtil.prettyName(o.getClass()),
             tag,
             pathObjs.contains(o)
         );

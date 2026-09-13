@@ -1,10 +1,8 @@
 package io.wispforest.gadget;
 
 import io.wispforest.gadget.dump.read.handler.PacketHandlers;
-import io.wispforest.gadget.mappings.MappingsManager;
 import io.wispforest.gadget.network.GadgetNetworking;
 import io.wispforest.gadget.util.GadgetConfig;
-import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.entrypoint.EntrypointContainer;
@@ -25,9 +23,6 @@ public class Gadget implements ModInitializer {
     public void onInitialize() {
         GadgetNetworking.init();
         PacketHandlers.init();
-
-        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.SERVER)
-            MappingsManager.init();
 
         for (EntrypointContainer<GadgetEntrypoint> container : FabricLoader.getInstance().getEntrypointContainers(GadgetEntrypoint.KEY, GadgetEntrypoint.class)) {
             try {

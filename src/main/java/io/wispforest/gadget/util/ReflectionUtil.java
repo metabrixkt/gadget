@@ -2,7 +2,6 @@ package io.wispforest.gadget.util;
 
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableMap;
-import io.wispforest.gadget.mappings.MappingsManager;
 
 import java.util.Collections;
 import java.util.Map;
@@ -36,7 +35,7 @@ public final class ReflectionUtil {
     }
 
     public static String nameWithoutPackage(Class<?> klass) {
-        String full = MappingsManager.remapClassToDisplay(klass);
+        String full = prettyName(klass);
         return full.substring(full.lastIndexOf('.') + 1);
     }
 

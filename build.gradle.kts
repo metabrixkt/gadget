@@ -54,7 +54,6 @@ dependencies {
     implementation(libs.owo.lib)
 
     include(libs.fabric.permissions.api)
-    include(libs.mapping.io)
     include(libs.auoeke.result)
     include(libs.auoeke.unsafe)
     include(libs.auoeke.reflect)
@@ -110,9 +109,6 @@ tasks.withType<JavaCompile>().configureEach {
 }
 
 java {
-    // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
-    // if it is present.
-    // If you remove this line, sources will not be generated.
     withSourcesJar()
 
     sourceCompatibility = JavaVersion.VERSION_25

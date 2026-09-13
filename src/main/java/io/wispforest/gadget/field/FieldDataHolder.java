@@ -3,7 +3,6 @@ package io.wispforest.gadget.field;
 import com.google.gson.stream.JsonWriter;
 import io.wispforest.gadget.Gadget;
 import io.wispforest.gadget.desc.*;
-import io.wispforest.gadget.mappings.MappingsManager;
 import io.wispforest.gadget.network.FieldData;
 import io.wispforest.gadget.path.FieldPathStep;
 import io.wispforest.gadget.path.ObjectPath;
@@ -150,7 +149,7 @@ public abstract class FieldDataHolder<N extends FieldDataNode<N>> {
                                 writer.value(efo.fullExceptionText());
                             } else if (data.fieldObj() instanceof ComplexFieldObject cfo) {
                                 writer.name("class");
-                                writer.value(MappingsManager.displayMappings().mapClass(cfo.className()));
+                                writer.value(cfo.className());
 
                                 writer.name("tag");
                                 writer.value(cfo.tag());
@@ -159,7 +158,7 @@ public abstract class FieldDataHolder<N extends FieldDataNode<N>> {
                                 writer.value(nfo.data().toString());
                             } else if (data.fieldObj() instanceof BytesFieldObject bfo) {
                                 writer.name("buffer_class");
-                                writer.value(MappingsManager.displayMappings().mapField(bfo.bufferClass()));
+                                writer.value(bfo.bufferClass());
 
                                 writer.name("bytes_len");
                                 writer.value(bfo.data().length);

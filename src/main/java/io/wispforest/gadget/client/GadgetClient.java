@@ -2,8 +2,6 @@ package io.wispforest.gadget.client;
 
 import io.wispforest.gadget.Gadget;
 import io.wispforest.gadget.client.command.ChatLogCommand;
-import io.wispforest.gadget.client.command.ReloadMappingsCommand;
-import io.wispforest.gadget.client.config.GadgetConfigScreen;
 import io.wispforest.gadget.client.dump.ClientPacketDumper;
 import io.wispforest.gadget.client.dump.handler.ClientPacketHandlers;
 import io.wispforest.gadget.client.field.FieldDataScreen;
@@ -13,7 +11,6 @@ import io.wispforest.gadget.client.gui.GadgetScreen;
 import io.wispforest.gadget.client.log.ChatLogAppender;
 import io.wispforest.gadget.client.nbt.StackComponentDataScreen;
 import io.wispforest.gadget.client.resource.ViewResourcesScreen;
-import io.wispforest.gadget.mappings.MappingsManager;
 import io.wispforest.gadget.mixin.client.AbstractContainerScreenAccessor;
 import io.wispforest.gadget.network.BlockEntityTarget;
 import io.wispforest.gadget.network.EntityTarget;
@@ -22,6 +19,7 @@ import io.wispforest.gadget.network.InspectionTarget;
 import io.wispforest.gadget.network.packet.c2s.OpenFieldDataScreenC2SPacket;
 import io.wispforest.gadget.network.packet.c2s.RequestResourceC2SPacket;
 import io.wispforest.gadget.network.packet.s2c.*;
+import io.wispforest.owo.config.ui.ConfigScreen;
 import io.wispforest.owo.config.ui.ConfigScreenProviders;
 import io.wispforest.owo.ui.component.UIComponents;
 import io.wispforest.owo.ui.container.UIContainers;
@@ -70,7 +68,7 @@ public class GadgetClient implements ClientModInitializer {
         ContextMenuScreens.init();
         ChatLogAppender.init();
 
-        ConfigScreenProviders.register("gadget", GadgetConfigScreen::new);
+        ConfigScreenProviders.register("gadget", parent -> ConfigScreen.create(Gadget.CONFIG, parent));
 
         GadgetNetworking.CHANNEL.registerClientbound(OpenFieldDataScreenS2CPacket.class, (packet, access) -> {
             access.runtime().gui.setScreen(new FieldDataScreen(
@@ -111,12 +109,6 @@ public class GadgetClient implements ClientModInitializer {
                 return;
 
             screen.openFile(packet.id(), () -> new ByteArrayInputStream(packet.data()));
-        });
-
-        ClientTickEvents.START_CLIENT_TICK.register(client -> {
-            if (client.gui.overlay() == null) {
-                MappingsManager.init();
-            }
         });
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
@@ -220,7 +212,6 @@ public class GadgetClient implements ClientModInitializer {
         });
 
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
-            ReloadMappingsCommand.register(dispatcher);
             ChatLogCommand.register(dispatcher);
         });
 

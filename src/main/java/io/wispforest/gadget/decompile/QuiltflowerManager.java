@@ -64,7 +64,7 @@ public final class QuiltflowerManager {
         });
     }
 
-    public static QuiltflowerHandler loadHandler(ProgressToast toast, Consumer<Component> logConsumer) {
+    public static QuiltflowerHandler loadHandler(Consumer<Component> logConsumer) {
         var cl = CLASSLOADER == null ? null : CLASSLOADER.get();
         if (cl == null) {
             try {
@@ -84,7 +84,7 @@ public final class QuiltflowerManager {
 
         try {
             var implClass = cl.loadClass("io.wispforest.gadget.decompile.handle.QuiltflowerHandlerImpl");
-            return (QuiltflowerHandler) implClass.getConstructors()[0].newInstance(toast, logConsumer);
+            return (QuiltflowerHandler) implClass.getConstructors()[0].newInstance(logConsumer);
         } catch (ReflectiveOperationException roe) {
             throw new RuntimeException(roe);
         }

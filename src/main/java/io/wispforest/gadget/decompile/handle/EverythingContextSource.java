@@ -22,8 +22,8 @@ public class EverythingContextSource implements IContextSource {
     @Override
     public Entries getEntries() {
         var klasses = new ArrayList<Entry>();
-        for (var klass : handler.allUnmappedClasses()) {
-            klasses.add(Entry.parse(handler.mapClass(klass)));
+        for (var klass : handler.allClasses()) {
+            klasses.add(Entry.parse(klass));
         }
 
         return new Entries(klasses, List.of(), List.of());
@@ -31,7 +31,7 @@ public class EverythingContextSource implements IContextSource {
 
     @Override
     public InputStream getInputStream(String resource) {
-        var bytes = handler.getClassBytes(resource.replace(".class", ""));
+        var bytes = handler.getClassBytes(resource);
 
         return new ByteArrayInputStream(bytes);
     }

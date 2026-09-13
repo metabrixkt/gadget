@@ -16,18 +16,7 @@
     "message.gadget.progress.finished": "Finished!",
     "message.gadget.progress.failed": "Failed! Check logs for details",
     "message.gadget.progress.cancelled": "Cancelled.",
-    "message.gadget.progress.downloading_intermediary": "Downloading Intermediary",
-    "message.gadget.progress.downloading_qm_versions": "Downloading QM versions",
-    "message.gadget.progress.downloading_yarn_versions": "Downloading Yarn versions",
-    "message.gadget.progress.downloading_minecraft_versions": "Downloading versions",
-    "message.gadget.progress.downloading_minecraft_version_manifest": "Downloading version manifest",
-    "message.gadget.progress.downloading_qm": "Downloading QM",
-    "message.gadget.progress.downloading_yarn": "Downloading Yarn",
-    "message.gadget.progress.downloading_client_mappings": "Downloading client mappings",
-    "message.gadget.progress.downloading_server_mappings": "Downloading server mappings",
     "message.gadget.progress.loading_quiltflower": "Loading Quiltflower",
-    "message.gadget.progress.loading_tr": "Loading TR",
-    "message.gadget.progress.loading_mappings": "Loading Mappings",
     "message.gadget.progress.reading_classpath": "Reading Classpath",
     "message.gadget.progress.downloading_quiltflower": "Downloading Quiltflower",
 
@@ -36,7 +25,6 @@
     "message.gadget.progress.building_screen": "Building screen",
     "message.gadget.progress.mounting_components": "Mounting components",
 
-    "message.gadget.loading_mappings": "Loading mappings",
     "message.gadget.loading_dump": "Loading dump",
     "message.gadget.loading_dump_stats": "Loading dump stats",
     "message.gadget.loading_classes": "Loading Classes",
@@ -216,28 +204,10 @@
     "text.config.gadget.option.internalSettings.injectMatrixStackErrors": "Inject MatrixStack Errors",
     "text.config.gadget.option.internalSettings.injectMatrixStackErrors.tooltip": "Causes MatrixStack errors when Shift is pressed",
 
-    "text.config.gadget.option.internalSettings.dumpTRMappings": "Dump TR Mappings",
     "text.config.gadget.option.internalSettings.dumpFieldDataRequests": "Dump Field Data Requests",
     "text.config.gadget.option.quiltflowerVersion": "Quiltflower Version",
     "text.config.gadget.option.quiltflowerVersion.tooltip": "Quiltflower version to use for classes.\nAny version after and including 1.9.0 is valid",
 
-    "text.config.gadget.option.mappings": "Mappings",
-    "text.config.gadget.option.mappings.tooltip": [
-        "Controls the mappings used in field dumps\n\n",
-        {
-            "text": "⚠ ",
-            "color": "red"
-        },
-        {
-            "text": "Local mappings are only useful\n inside a development environment",
-            "bold": true,
-            "color": "red"
-        }
-    ],
-    "text.config.gadget.option.mappings.value.local": "Local",
-    "text.config.gadget.option.mappings.value.yarn": "Yarn",
-    "text.config.gadget.option.mappings.value.mojang": "Mojang",
-    "text.config.gadget.option.mappings.value.quilt": "Quilt",
     "text.gadget.latest_version": "Latest",
     "text.config.gadget.option.uiCounterMode": "UI Update Counter",
     "text.config.gadget.enum.uICounterMode.off": "Off",
@@ -315,7 +285,6 @@
         "\n",
         {"index": 1}
     ],
-    "text.gadget.log.loading_class": "[INFO] Remapper: Loading %s",
 
     "text.gadget.particle_system": "Particle system #%s @ %s, %s, %s",
 
@@ -368,10 +337,6 @@
         "color": "red"
     },
 
-    "commands.gadget.reload_mappings.success": [
-        {"translate": "message.gadget.header"},
-        "Reloading mappings"
-    ],
     "commands.gadget.chat-log.enable.success": [
         {"translate": "message.gadget.header"},
         "Enabled loud logging for '",

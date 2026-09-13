@@ -6,7 +6,6 @@ fabric-api = "0.158.0+26.2"
 owo = "0.13.1+26.2"
 modmenu = "20.0.1"
 fabric-permissions-api = "0.7.0"
-mapping-io = "0.9.1"
 auoeke-result = "0.4.1"
 auoeke-unsafe = "1.7.3"
 auoeke-reflect = "6.3.0"
@@ -25,7 +24,6 @@ fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-l
 fabric-api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric-api" }
 owo-lib = { module = "io.wispforest:owo-lib", version.ref = "owo" }
 fabric-permissions-api = { module = "me.lucko:fabric-permissions-api", version.ref = "fabric-permissions-api" }
-mapping-io = { module = "net.fabricmc:mapping-io", version.ref = "mapping-io" }
 auoeke-result = { module = "net.auoeke:result", version.ref = "auoeke-result" }
 auoeke-unsafe = { module = "net.auoeke:unsafe", version.ref = "auoeke-unsafe" }
 auoeke-reflect = { module = "net.auoeke:reflect", version.ref = "auoeke-reflect" }

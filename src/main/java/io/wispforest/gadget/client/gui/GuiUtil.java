@@ -18,7 +18,7 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.FontDescription;
 import net.minecraft.network.chat.MutableComponent;
 import org.apache.commons.lang3.StringUtils;
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 
 public final class GuiUtil {
     private GuiUtil() {
@@ -38,7 +38,7 @@ public final class GuiUtil {
         label.cursorStyle(CursorStyle.HAND);
 
         label.mouseDown().subscribe((click, doubled) -> {
-            if (click.button() != GLFW.GLFW_MOUSE_BUTTON_LEFT) return false;
+            if (click.button() != InputConstants.MOUSE_BUTTON_LEFT) return false;
 
             UISounds.playButtonSound();
             onPressed.run();
@@ -52,7 +52,7 @@ public final class GuiUtil {
         label.cursorStyle(CursorStyle.HAND);
 
         label.mouseDown().subscribe((click, doubled) -> {
-            if (click.button() != GLFW.GLFW_MOUSE_BUTTON_LEFT) return false;
+            if (click.button() != InputConstants.MOUSE_BUTTON_LEFT) return false;
 
             UISounds.playButtonSound();
             onPressed.accept(click.x(), click.y());

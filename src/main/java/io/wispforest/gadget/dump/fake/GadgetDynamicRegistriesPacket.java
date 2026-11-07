@@ -30,10 +30,8 @@ public record GadgetDynamicRegistriesPacket(
     private static final StreamCodec<ByteBuf, ResourceKey<? extends Registry<?>>> REGISTRY_KEY_CODEC = Identifier.STREAM_CODEC
         .map(ResourceKey::createRegistryKey, ResourceKey::identifier);
 
-    private static final StreamCodec<FriendlyByteBuf, TagNetworkSerialization.NetworkPayload> TAG_SERIALIZED_CODEC = StreamCodec.ofMember(
-        TagNetworkSerialization.NetworkPayload::write,
-        TagNetworkSerialization.NetworkPayload::read
-    );
+    private static final StreamCodec<FriendlyByteBuf, TagNetworkSerialization.NetworkPayload> TAG_SERIALIZED_CODEC =
+        TagNetworkSerialization.NetworkPayload.STREAM_CODEC.cast();
 
     public static final StreamCodec<FriendlyByteBuf, GadgetDynamicRegistriesPacket> CODEC = StreamCodec.composite(
         ByteBufCodecs.map(

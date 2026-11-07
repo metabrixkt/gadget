@@ -35,7 +35,7 @@ import net.minecraft.util.Mth;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.mutable.MutableLong;
 import org.jetbrains.annotations.NotNull;
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 
 public class OpenDumpScreen extends BaseOwoScreen<FlowLayout> {
     private final Screen parent;
@@ -116,7 +116,7 @@ public class OpenDumpScreen extends BaseOwoScreen<FlowLayout> {
         searchBox.setMaxLength(1000);
 
         rootComponent.keyPress().subscribe((input) -> {
-            if (input.key() != GLFW.GLFW_KEY_F || !input.hasControlDown())
+            if (input.key() != InputConstants.KEY_F || !input.hasControlDown())
                 return false;
 
             uiAdapter.rootComponent.focusHandler().focus(
@@ -329,13 +329,13 @@ public class OpenDumpScreen extends BaseOwoScreen<FlowLayout> {
 
     @Override
     public boolean keyPressed(KeyEvent input) {
-        if (input.key() == GLFW.GLFW_KEY_E && input.hasControlDown()) {
+        if (input.key() == InputConstants.KEY_E && input.hasControlDown()) {
             openExportModal();
 
             return true;
         }
 
-        if (input.key() == GLFW.GLFW_KEY_ESCAPE) {
+        if (input.key() == InputConstants.KEY_ESCAPE) {
             for (io.wispforest.owo.ui.core.UIComponent rootChild : uiAdapter.rootComponent.children()) {
                 if (rootChild instanceof OverlayContainer<?> overlay && overlay.closeOnClick()) {
                     overlay.remove();

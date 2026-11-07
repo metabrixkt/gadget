@@ -28,7 +28,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.MutableComponent;
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 
 public class FieldDataIsland extends FieldDataHolder<ClientFieldDataNode> {
     private final FlowLayout mainContainer;
@@ -178,7 +178,7 @@ public class FieldDataIsland extends FieldDataHolder<ClientFieldDataNode> {
 
             if (path.last() instanceof FieldPathStep step) {
                 rowLabel.mouseDown().subscribe((click, doubled) -> {
-                    if (click.button() != GLFW.GLFW_MOUSE_BUTTON_RIGHT) return false;
+                    if (click.button() != InputConstants.MOUSE_BUTTON_RIGHT) return false;
 
                     GuiUtil.contextMenu(rowLabel, click.x(), click.y())
                         .button(Component.translatable("text.gadget.hide_field"), unused -> {

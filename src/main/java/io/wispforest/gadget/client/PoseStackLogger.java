@@ -4,12 +4,10 @@ import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.vertex.PoseStack;
 import io.wispforest.gadget.Gadget;
 import io.wispforest.gadget.util.ReflectionUtil;
-import org.lwjgl.glfw.GLFW;
 
 import java.util.Collections;
 import java.util.Map;
 import java.util.WeakHashMap;
-import net.minecraft.client.Minecraft;
 
 // TODO: remove debugging^2, or just remove this entirely.
 public final class PoseStackLogger {
@@ -21,7 +19,7 @@ public final class PoseStackLogger {
     }
 
     public static void logOp(PoseStack stack, boolean push, int indent) {
-        if (ERROR_MODE != 2 && !(Gadget.CONFIG.internalSettings.debugMatrixStackDebugging() && InputConstants.isKeyDown(Minecraft.getInstance().getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT))) return;
+        if (ERROR_MODE != 2 && !(Gadget.CONFIG.internalSettings.debugMatrixStackDebugging() && InputConstants.isKeyDown(InputConstants.KEY_LSHIFT))) return;
 
         var log = LOGS.computeIfAbsent(stack, unused -> new StringBuilder());
 
@@ -45,7 +43,7 @@ public final class PoseStackLogger {
     }
 
     public static void startLoggingIfNeeded() {
-        if (Gadget.CONFIG.internalSettings.debugMatrixStackDebugging() && InputConstants.isKeyDown(Minecraft.getInstance().getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
+        if (Gadget.CONFIG.internalSettings.debugMatrixStackDebugging() && InputConstants.isKeyDown(InputConstants.KEY_LSHIFT)) {
             for (var log : LOGS.values()) {
                 Gadget.LOGGER.error("log:\n{}", log);
             }

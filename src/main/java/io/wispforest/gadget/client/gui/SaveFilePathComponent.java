@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 
 public class SaveFilePathComponent extends FlowLayout {
     private final String title;
@@ -21,6 +21,7 @@ public class SaveFilePathComponent extends FlowLayout {
     private final LabelComponent label;
     private List<String> patterns = new ArrayList<>();
     private String filterDescription = null;
+    private boolean dialogOpen;
 
     public SaveFilePathComponent(String title, String defaultPath) {
         super(Sizing.content(), Sizing.content(), Algorithm.HORIZONTAL);
@@ -79,21 +80,18 @@ public class SaveFilePathComponent extends FlowLayout {
 
     @Override
     public boolean onMouseDown(MouseButtonEvent click, boolean doubled) {
-        if (click.button() == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
-            Thread thread = new Thread(() -> {
-                String selected = DialogUtil.saveFileDialog(
-                    title,
-                    path.get(),
-                    patterns.isEmpty() ? null : patterns,
-                    filterDescription
-                );
-
-                if (selected != null) {
-                    this.path.set(selected);
-                }
-            }, "Save File Dialog Thread for " + this);
-
-            thread.start();
+        if (click.button() == InputConstants.MOUSE_BUTTON_LEFT) {
+            if (dialogOpen) return true;
+            dialogOpen = true;
+            DialogUtil.saveFileDialog(
+                title,
+                path.get(),
+                patterns.isEmpty() ? null : patterns,
+                filterDescription
+            ).whenComplete((selected, _) -> {
+                dialogOpen = false;
+                if (selected != null) this.path.set(selected);
+            });
 
             return true;
         }

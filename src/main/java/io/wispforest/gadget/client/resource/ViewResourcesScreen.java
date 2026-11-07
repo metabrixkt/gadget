@@ -27,7 +27,7 @@ import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 
 public class ViewResourcesScreen extends BaseOwoScreen<FlowLayout> {
     private static final Identifier FILE_TEXTURE_ID = Gadget.id("file_texture");
@@ -118,7 +118,7 @@ public class ViewResourcesScreen extends BaseOwoScreen<FlowLayout> {
             () -> row.surface(Surface.BLANK));
 
         row.mouseDown().subscribe((click, doubled) -> {
-            if (click.button() != GLFW.GLFW_MOUSE_BUTTON_LEFT) return false;
+            if (click.button() != InputConstants.MOUSE_BUTTON_LEFT) return false;
 
             UISounds.playInteractionSound();
 

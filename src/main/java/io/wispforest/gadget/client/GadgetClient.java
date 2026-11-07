@@ -50,11 +50,11 @@ import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 
 public class GadgetClient implements ClientModInitializer {
-    public static final KeyMapping INSPECT_KEY = new KeyMapping("key.gadget.inspect", GLFW.GLFW_KEY_I, KeyMapping.Category.MISC);
-    public static final KeyMapping DUMP_KEY = new KeyMapping("key.gadget.dump", GLFW.GLFW_KEY_K, KeyMapping.Category.MISC);
+    public static final KeyMapping INSPECT_KEY = new KeyMapping("key.gadget.inspect", InputConstants.KEY_I, KeyMapping.Category.MISC);
+    public static final KeyMapping DUMP_KEY = new KeyMapping("key.gadget.dump", InputConstants.KEY_K, KeyMapping.Category.MISC);
 
     @Override
     public void onInitializeClient() {

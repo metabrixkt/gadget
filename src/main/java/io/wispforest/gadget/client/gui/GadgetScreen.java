@@ -30,7 +30,7 @@ import net.minecraft.client.input.KeyEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 
 public class GadgetScreen extends BaseOwoScreen<FlowLayout> {
     private final Screen parent;
@@ -64,11 +64,15 @@ public class GadgetScreen extends BaseOwoScreen<FlowLayout> {
 
         openOther.margins(Insets.bottom(4));
         GuiUtil.semiButton(openOther, () -> {
-            String path = DialogUtil.openFileDialog("Open other dump", null, List.of("*.dump"), "gadget network dumps", false);
-
-            if (path != null) {
-                OpenDumpScreen.openWithProgress(this, Path.of(path));
-            }
+            DialogUtil.openFileDialog("Open other dump", null, List.of("*.dump"), "gadget network dumps", false)
+                .thenAccept(paths -> {
+                    if (!paths.isEmpty() && minecraft.gui.screen() == this) {
+                        OpenDumpScreen.openWithProgress(this, Path.of(paths.getFirst()));
+                    }
+                }).exceptionally(error -> {
+                    Gadget.LOGGER.error("Failed to open dump", error);
+                    return null;
+                });
         });
 
         main.child(openOther);
@@ -153,7 +157,7 @@ public class GadgetScreen extends BaseOwoScreen<FlowLayout> {
 
     @Override
     public boolean keyPressed(KeyEvent input) {
-        if (input.key() == GLFW.GLFW_KEY_LEFT_SHIFT || input.key() == GLFW.GLFW_KEY_RIGHT_SHIFT) {
+        if (input.key() == InputConstants.KEY_LSHIFT || input.key() == InputConstants.KEY_RSHIFT) {
             inspectClasses.text(Component.translatable("text.gadget.inspect_all_classes"));
         }
 
@@ -162,7 +166,7 @@ public class GadgetScreen extends BaseOwoScreen<FlowLayout> {
 
     @Override
     public boolean keyReleased(KeyEvent input) {
-        if (input.key() == GLFW.GLFW_KEY_LEFT_SHIFT || input.key() == GLFW.GLFW_KEY_RIGHT_SHIFT) {
+        if (input.key() == InputConstants.KEY_LSHIFT || input.key() == InputConstants.KEY_RSHIFT) {
             inspectClasses.text(Component.translatable("text.gadget.inspect_exported_classes"));
         }
 

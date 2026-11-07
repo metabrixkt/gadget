@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import net.minecraft.client.input.KeyEvent;
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 
 // Copied from owo-ui's CollapsibleContainer
 public class SubObjectContainer extends FlowLayout {
@@ -84,7 +84,7 @@ public class SubObjectContainer extends FlowLayout {
 
     @Override
     public boolean onKeyPress(KeyEvent input) {
-        if (input.key() == GLFW.GLFW_KEY_SPACE || input.key() == GLFW.GLFW_KEY_ENTER || input.key() == GLFW.GLFW_KEY_KP_ENTER) {
+        if (input.key() == InputConstants.KEY_SPACE || input.key() == InputConstants.KEY_RETURN || input.key() == InputConstants.KEY_NUMPADENTER) {
             this.toggleExpansion();
 
             super.onKeyPress(input);

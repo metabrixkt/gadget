@@ -40,6 +40,19 @@ import net.minecraft.server.packs.resources.ResourceProvider;
 import org.jetbrains.annotations.Nullable;
 
 public class PacketDumpDeserializer {
+    // A dump can contain creative-only packets and command completion requests.
+    private static final GameProtocols.Context DUMP_CONTEXT = new GameProtocols.Context() {
+        @Override
+        public boolean hasInfiniteMaterials() {
+            return true;
+        }
+
+        @Override
+        public boolean canUseCommandBlocks() {
+            return true;
+        }
+    };
+
     private PacketDumpDeserializer() {
 
     }
@@ -160,7 +173,7 @@ public class PacketDumpDeserializer {
 
             case PLAY ->
                 switch (side) {
-                    case SERVERBOUND -> GameProtocols.SERVERBOUND_TEMPLATE.bind(RegistryFriendlyByteBuf.decorator(registries), () -> true);
+                    case SERVERBOUND -> GameProtocols.SERVERBOUND_TEMPLATE.bind(RegistryFriendlyByteBuf.decorator(registries), DUMP_CONTEXT);
                     case CLIENTBOUND -> GameProtocols.CLIENTBOUND_TEMPLATE.bind(RegistryFriendlyByteBuf.decorator(registries));
                 };
         };

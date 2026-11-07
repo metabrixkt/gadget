@@ -18,6 +18,10 @@ Gadget is a collection of tools for mod developers, aimed at helping debug conte
 
 On Minecraft 26.1 and newer, Gadget uses runtime class and field names directly. When upgrading from an older version, reset the hidden-fields list in Gadget's config or update its entries to readable names such as `net.minecraft.world.entity.Entity#type`. Entries using intermediary names (`class_...` or `field_...`) no longer match.
 
+## 26.3
+
+The 26.3 port of this mod uses the unpublished owo-lib 26.3 port from [metabrixkt/owo-lib](https://github.com/metabrixkt/owo-lib).
+
 **Build Setup:**
 ```properties
 # https://maven.wispforest.io/io/wispforest/gadget

@@ -13,7 +13,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.nbt.*;
 import net.minecraft.network.chat.Component;
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 
 public class KeyAdderWidget extends FlowLayout {
     private final NbtDataIsland island;
@@ -136,7 +136,7 @@ public class KeyAdderWidget extends FlowLayout {
     }
 
     private boolean onNameFieldKeyPressed(KeyEvent input) {
-        if (input.key() == GLFW.GLFW_KEY_ENTER) {
+        if (input.key() == InputConstants.KEY_RETURN) {
             if (valueField == null) {
                 commit();
             } else {
@@ -151,7 +151,7 @@ public class KeyAdderWidget extends FlowLayout {
     }
 
     private boolean onValueFieldKeyPressed(KeyEvent input) {
-        if (input.key() == GLFW.GLFW_KEY_ENTER) {
+        if (input.key() == InputConstants.KEY_RETURN) {
             commit();
 
             return true;

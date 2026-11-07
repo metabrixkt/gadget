@@ -13,7 +13,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 
 public class PrimitiveEditorWidget extends FlowLayout {
     private final NbtDataIsland island;
@@ -50,7 +50,7 @@ public class PrimitiveEditorWidget extends FlowLayout {
     }
 
     private boolean editFieldKeyPressed(KeyEvent input) {
-        if (input.key() == GLFW.GLFW_KEY_ENTER) {
+        if (input.key() == InputConstants.KEY_RETURN) {
             UISounds.playButtonSound();
 
             path.set(island.data, parser.apply(editField.getValue()));

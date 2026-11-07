@@ -1,12 +1,10 @@
 package io.wispforest.gadget.mixin.client;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import com.mojang.blaze3d.platform.InputConstants;
 import io.wispforest.gadget.Gadget;
 import net.minecraft.client.KeyboardHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.input.KeyEvent;
-import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -26,7 +24,7 @@ public abstract class KeyboardHandlerMixin {
 
         if (original) return true;
         if (!Gadget.CONFIG.debugKeysInScreens()) return false;
-        if (!InputConstants.isKeyDown(minecraft.getWindow(), GLFW.GLFW_KEY_F3)) return false;
+        if (!minecraft.options.keyDebugModifier.isDown()) return false;
 
         return ((KeyboardHandlerMixin)(Object) minecraft.keyboardHandler).handleDebugKeys(event);
     }

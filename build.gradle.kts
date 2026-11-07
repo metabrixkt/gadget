@@ -70,6 +70,10 @@ dependencies {
     runtimeOnly(libs.cloth.config)
 //    runtimeOnly(libs.auth.me)
 
+    testImplementation(platform("org.junit:junit-bom:6.0.3"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
     "testmodImplementation"(sourceSets.main.get().output)
 }
 
@@ -145,4 +149,9 @@ publishing {
             }
         }
     }
+}
+
+
+tasks.test {
+    useJUnitPlatform()
 }

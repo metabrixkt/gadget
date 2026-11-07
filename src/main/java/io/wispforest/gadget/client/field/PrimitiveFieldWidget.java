@@ -14,7 +14,7 @@ import io.wispforest.owo.ui.util.UISounds;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.network.chat.Component;
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 
 public class PrimitiveFieldWidget extends FlowLayout {
     private final PrimitiveEditData editData;
@@ -49,7 +49,7 @@ public class PrimitiveFieldWidget extends FlowLayout {
     }
 
     private boolean editFieldKeyPressed(KeyEvent input) {
-        if (input.key() == GLFW.GLFW_KEY_ENTER) {
+        if (input.key() == InputConstants.KEY_RETURN) {
             UISounds.playButtonSound();
 
             island.source().setPrimitiveAt(fieldPath, new PrimitiveEditData(editData.type(), editField.getValue()));

@@ -25,7 +25,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.inventory.Slot;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 
 public class StackComponentDataScreen extends BaseOwoScreen<FlowLayout> {
     private final NbtDataIsland island;
@@ -123,7 +123,7 @@ public class StackComponentDataScreen extends BaseOwoScreen<FlowLayout> {
                 () -> addButton.surface(Surface.BLANK));
 
             addButton.mouseDown().subscribe((click, doubled) -> {
-                if (click.button() != GLFW.GLFW_MOUSE_BUTTON_LEFT) return false;
+                if (click.button() != InputConstants.MOUSE_BUTTON_LEFT) return false;
 
                 UISounds.playInteractionSound();
 

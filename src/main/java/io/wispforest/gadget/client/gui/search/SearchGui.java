@@ -19,7 +19,7 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 
 public class SearchGui extends FlowLayout {
     private final ScrollContainer<?> scroll;
@@ -68,7 +68,7 @@ public class SearchGui extends FlowLayout {
         });
 
         searchBox.keyPress().subscribe((input) -> {
-            if (input.key() != GLFW.GLFW_KEY_ENTER) return false;
+            if (input.key() != InputConstants.KEY_RETURN) return false;
 
             var query = searchBox.getValue().toLowerCase(Locale.ROOT);
             if (query.isBlank()) return false;

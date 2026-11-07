@@ -2,10 +2,9 @@
     "required": true,
     "minVersion": "0.8",
     "package": "io.wispforest.gadget.mixin",
-    "compatibilityLevel": "JAVA_21",
+    "compatibilityLevel": "JAVA_25",
     "plugin": "io.wispforest.gadget.early.GadgetMixinPlugin",
     "mixins": [
-        "ClientboundLevelChunkPacketDataBlockEntityInfoMixin",
         "CommandsMixin",
         "FallbackResourceManagerMixin",
         "FilePackResourcesMixin",

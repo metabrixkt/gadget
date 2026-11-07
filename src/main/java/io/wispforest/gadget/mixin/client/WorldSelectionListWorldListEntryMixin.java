@@ -7,7 +7,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.worldselection.WorldSelectionList;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -23,7 +23,7 @@ public abstract class WorldSelectionListWorldListEntryMixin {
 
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
     private void onRightClick(MouseButtonEvent event, boolean doubled, CallbackInfoReturnable<Boolean> cir) {
-        if (event.button() != GLFW.GLFW_MOUSE_BUTTON_RIGHT) return;
+        if (event.button() != InputConstants.MOUSE_BUTTON_RIGHT) return;
         if (!Gadget.CONFIG.rightClickDump()) return;
 
         ContextMenuScreens.contextMenuAt(screen, event.x(), event.y())

@@ -37,7 +37,7 @@ import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 
 public class FieldDataScreen extends BaseOwoScreen<FlowLayout> {
     private final InspectionTarget target;
@@ -120,7 +120,7 @@ public class FieldDataScreen extends BaseOwoScreen<FlowLayout> {
             .child(search
                 .positioning(Positioning.relative(0, 100)));
         verticalFlowLayout.keyPress().subscribe((input) -> {
-            if (input.key() != GLFW.GLFW_KEY_F || !input.hasControlDown())
+            if (input.key() != InputConstants.KEY_F || !input.hasControlDown())
                 return false;
 
             uiAdapter.rootComponent.focusHandler().focus(
@@ -229,7 +229,7 @@ public class FieldDataScreen extends BaseOwoScreen<FlowLayout> {
 
     @Override
     public boolean keyPressed(KeyEvent input) {
-        if (input.key() == GLFW.GLFW_KEY_E && input.hasControlDown()) {
+        if (input.key() == InputConstants.KEY_E && input.hasControlDown()) {
             openExportModal();
 
             return true;

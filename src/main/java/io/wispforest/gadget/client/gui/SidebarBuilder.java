@@ -8,7 +8,7 @@ import io.wispforest.owo.ui.core.*;
 import io.wispforest.owo.ui.util.UISounds;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 
 public class SidebarBuilder {
     private final FlowLayout layout = UIContainers.verticalFlow(Sizing.content(), Sizing.content());
@@ -31,7 +31,7 @@ public class SidebarBuilder {
         Button button = new Button(icon, tooltip);
 
         button.mouseDown().subscribe((click, doubled) -> {
-            if (click.button() != GLFW.GLFW_MOUSE_BUTTON_LEFT) return false;
+            if (click.button() != InputConstants.MOUSE_BUTTON_LEFT) return false;
 
             UISounds.playInteractionSound();
 

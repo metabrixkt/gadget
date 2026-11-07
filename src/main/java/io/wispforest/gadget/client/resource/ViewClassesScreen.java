@@ -26,13 +26,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 import java.util.concurrent.ForkJoinPool;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
-import org.lwjgl.glfw.GLFW;
+import org.jspecify.annotations.NonNull;
 
 public class ViewClassesScreen extends BaseOwoScreen<FlowLayout> {
     private final Screen parent;
@@ -65,7 +67,7 @@ public class ViewClassesScreen extends BaseOwoScreen<FlowLayout> {
     public static void openWithProgress(Screen parent) {
         ProgressToast toast = ProgressToast.create(Component.translatable("message.gadget.loading_classes"));
         Minecraft client = Minecraft.getInstance();
-        boolean showAll = InputConstants.isKeyDown(Minecraft.getInstance().getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT);
+        boolean showAll = InputConstants.isKeyDown(InputConstants.KEY_LSHIFT);
 
         toast.follow(
             QuiltflowerManager.ensureInstalled(toast)
@@ -138,23 +140,10 @@ public class ViewClassesScreen extends BaseOwoScreen<FlowLayout> {
 
     @Override
     public boolean keyPressed(KeyEvent input) {
-        if (input.key() == GLFW.GLFW_KEY_S && input.hasControlDown()) {
+        if (input.key() == InputConstants.KEY_S && input.hasControlDown()) {
             if (currentFileContents == null) return false;
 
-            String path = DialogUtil.saveFileDialog(
-                "Save as .java",
-                currentFileName.replace(".class", ".java"),
-                List.of("*.java"),
-                "Java source files"
-            );
-
-            if (path != null) {
-                try {
-                    Files.writeString(Path.of(path), currentFileContents, StandardCharsets.UTF_8);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
+            saveJava(currentFileName, currentFileContents);
 
             return true;
         }
@@ -174,7 +163,7 @@ public class ViewClassesScreen extends BaseOwoScreen<FlowLayout> {
             () -> row.surface(Surface.BLANK));
 
         row.mouseDown().subscribe((click, doubled) -> {
-            if (click.button() == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+            if (click.button() == InputConstants.MOUSE_BUTTON_LEFT) {
                 UISounds.playInteractionSound();
 
                 contents.clearChildren();
@@ -211,40 +200,42 @@ public class ViewClassesScreen extends BaseOwoScreen<FlowLayout> {
 
                 GuiUtil.contextMenu(row, click.x(), click.y())
                     .button(Component.translatable("text.gadget.save_as_java"), unused -> {
-                        String path = DialogUtil.saveFileDialog(
-                            "Save as .java",
-                            filename.replace(".class", ".java"),
-                            List.of("*.java"),
-                            "Java source files"
-                        );
-
-                        if (path != null) {
+                        CompletableFuture.supplyAsync(() -> {
                             try {
-                                Files.writeString(Path.of(path), currentFileContents, StandardCharsets.UTF_8);
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
+                                var exporter = createExportDecompiler();
+                                return exporter.decompileClass(Class.forName(
+                                    fullPath.replace(".class", "").replace('/', '.'), false, Gadget.class.getClassLoader()
+                                ));
+                            } catch (ClassNotFoundException e) {
+                                throw new CompletionException(e);
                             }
-                        }
+                        }).thenAcceptAsync(text -> {
+                            if (minecraft.gui.screen() == this) saveJava(filename, text);
+                        }, minecraft).exceptionally(error -> {
+                            Gadget.LOGGER.error("Failed to prepare Java source for {}", fullPath, error);
+                            return null;
+                        });
                     })
                     .button(Component.translatable("text.gadget.save_as_class"), unused -> {
-                        String path = DialogUtil.saveFileDialog(
-                            "Save as .class",
-                            filename,
-                            List.of("*.class"),
-                            "JVM class files"
-                        );
-
-                        if (path != null) {
-                            try {
-                                contents.clearChildren();
-                                Files.write(
-                                    Path.of(path),
-                                    decompiler.getClassBytes(fullPath.replace(".class", ""))
-                                );
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
-                        }
+                        CompletableFuture.supplyAsync(() -> createExportDecompiler().getClassBytes(fullPath.replace(".class", "")))
+                            .thenAcceptAsync(bytes -> {
+                                if (minecraft.gui.screen() != this) return;
+                                DialogUtil.saveFileDialog("Save as .class", filename, List.of("*.class"), "JVM class files")
+                                    .thenAcceptAsync(path -> {
+                                        if (path == null) return;
+                                        try {
+                                            Files.write(Path.of(path), bytes);
+                                        } catch (IOException e) {
+                                            throw new CompletionException(e);
+                                        }
+                                    }).exceptionally(error -> {
+                                        Gadget.LOGGER.error("Failed to save class {}", fullPath, error);
+                                        return null;
+                                    });
+                            }, minecraft).exceptionally(error -> {
+                                Gadget.LOGGER.error("Failed to prepare class {}", fullPath, error);
+                                return null;
+                            });
                     });
 
             }
@@ -253,6 +244,27 @@ public class ViewClassesScreen extends BaseOwoScreen<FlowLayout> {
         });
 
         return row;
+    }
+
+    private static @NonNull QuiltflowerHandler createExportDecompiler() {
+        return QuiltflowerManager.loadHandler(message -> Gadget.LOGGER.info("Class export: {}", message.getString()));
+    }
+
+    private void saveJava(final @NonNull String filename, final @NonNull String text) {
+        // Capture the name and source before opening the asynchronous dialog.
+        DialogUtil.saveFileDialog("Save as .java", filename.replace(".class", ".java"), List.of("*.java"), "Java source files")
+            .thenAcceptAsync(path -> {
+                if (path == null) return;
+
+                try {
+                    Files.writeString(Path.of(path), text, StandardCharsets.UTF_8);
+                } catch (IOException e) {
+                    throw new CompletionException(e);
+                }
+            }).exceptionally(cause -> {
+                Gadget.LOGGER.error("Failed to save Java source {}", filename, cause);
+                return null;
+            });
     }
 
     @Override
